@@ -14,7 +14,7 @@ connectDB();
 
 app.use(express.json());
 app.use(cors({
-   origin: 'http://localhost:5173'
+   origin: 'https://assignment-4-client-one.vercel.app'
 }))
 
 
@@ -28,11 +28,6 @@ app.get('/', (req: Request, res: Response) =>{
 
 app.use('/api/books', bookRouter)
 app.use('/api/borrow', borrowRouter)
-
-
-
-
-
 
 
 app.listen(port, () =>{

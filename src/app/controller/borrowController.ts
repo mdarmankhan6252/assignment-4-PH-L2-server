@@ -17,7 +17,6 @@ export const borrowBook = async (req: Request, res: Response) => {
       }
 
       const bookDoc = await Book.findById(book);
-      console.log(bookDoc);
 
       if (!bookDoc) {
          res.status(404).json({

@@ -5,38 +5,43 @@ import Book from "../models/BookModel";
 
 
 export const borrowBook = async (req: Request, res: Response) => {
-
    try {
       const { book, quantity, dueDate } = new Borrow(req.body);
 
       if (!mongoose.Types.ObjectId.isValid(book)) {
          res.status(400).json({
             success: false,
-            message: "Invalid book ID formate"
+            message: "Invalid Book ID format",
          })
       }
 
       const bookDoc = await Book.findById(book);
+      console.log(bookDoc);
 
       if (!bookDoc) {
          res.status(404).json({
             success: false,
-            message: "Book Not Found!"
+            message: 'Book Not found!',
          })
       }
 
       if (bookDoc && bookDoc?.copies < quantity) {
          res.status(400).json({
             success: false,
-            message: 'Not enough copies available'
+            message: "Not enough copies available"
          })
       }
 
       if (bookDoc) {
-         bookDoc.copies = bookDoc.copies - quantity
-         bookDoc?.checkAvailability();
-         await bookDoc?.save();
+         bookDoc.copies = bookDoc.copies - quantity;
+
       }
+
+      // bookDoc && 
+
+      bookDoc?.checkAvailability();
+
+      await bookDoc?.save();
 
       const borrow = await Borrow.create({
          book,
@@ -46,14 +51,14 @@ export const borrowBook = async (req: Request, res: Response) => {
 
       res.status(201).json({
          success: true,
-         message: "Book borrowed successfully!",
+         message: 'Book borrowed successfully',
          data: borrow
       })
 
    } catch (error) {
       res.status(500).json({
          success: false,
-         message: "Failed to borrow a book"
+         message: 'Failed to borrow a book.'
       })
    }
 }

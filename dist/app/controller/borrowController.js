@@ -22,25 +22,27 @@ const borrowBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         if (!mongoose_1.default.Types.ObjectId.isValid(book)) {
             res.status(400).json({
                 success: false,
-                message: "Invalid book ID formate"
+                message: "Invalid Book ID format",
             });
         }
         const bookDoc = yield BookModel_1.default.findById(book);
+        console.log(bookDoc);
         if (!bookDoc) {
             res.status(404).json({
                 success: false,
-                message: "Book Not Found!"
+                message: 'Book Not found!',
             });
         }
         if (bookDoc && (bookDoc === null || bookDoc === void 0 ? void 0 : bookDoc.copies) < quantity) {
             res.status(400).json({
                 success: false,
-                message: 'Not enough copies available'
+                message: "Not enough copies available"
             });
         }
         if (bookDoc) {
             bookDoc.copies = bookDoc.copies - quantity;
         }
+        // bookDoc && 
         bookDoc === null || bookDoc === void 0 ? void 0 : bookDoc.checkAvailability();
         yield (bookDoc === null || bookDoc === void 0 ? void 0 : bookDoc.save());
         const borrow = yield borrowSchema_1.default.create({
@@ -50,19 +52,19 @@ const borrowBook = (req, res) => __awaiter(void 0, void 0, void 0, function* () 
         });
         res.status(201).json({
             success: true,
-            message: "Book borrowed successfully!",
+            message: 'Book borrowed successfully',
             data: borrow
         });
     }
     catch (error) {
         res.status(500).json({
             success: false,
-            message: "Failed to borrow a book"
+            message: 'Failed to borrow a book.'
         });
     }
 });
 exports.borrowBook = borrowBook;
-//  borrow a book -> /api/borrow
+//  fetch borrow books -> /api/borrow
 const getBorrowBooksSummary = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const summary = yield borrowSchema_1.default.aggregate([

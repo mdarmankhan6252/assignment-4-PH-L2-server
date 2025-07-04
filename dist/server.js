@@ -15,7 +15,7 @@ const port = process.env.PORT || 5000;
 (0, db_1.default)();
 app.use(express_1.default.json());
 app.use((0, cors_1.default)({
-    origin: 'https://assignment-4-client-one.vercel.app'
+    origin: 'https://assignment-4-ph-l2-client.vercel.app'
 }));
 // main route
 app.get('/', (req, res) => {

@@ -14,7 +14,7 @@ connectDB();
 
 app.use(express.json());
 app.use(cors({
-   origin: 'https://assignment-4-client-one.vercel.app'
+   origin: 'http://localhost:5173'
 }))
 
 

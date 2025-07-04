@@ -34,11 +34,9 @@ export const borrowBook = async (req: Request, res: Response) => {
 
       if (bookDoc) {
          bookDoc.copies = bookDoc.copies - quantity
+         bookDoc?.checkAvailability();
+         await bookDoc?.save();
       }
-
-      bookDoc?.checkAvailability();
-
-      await bookDoc?.save();
 
       const borrow = await Borrow.create({
          book,
@@ -61,7 +59,7 @@ export const borrowBook = async (req: Request, res: Response) => {
 }
 
 
-//  borrow a book -> /api/borrow
+//  fetch borrow books -> /api/borrow
 
 export const getBorrowBooksSummary = async (req: Request, res: Response) => {
    try {
